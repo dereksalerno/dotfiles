@@ -37,9 +37,11 @@ require('packer').startup(function(use)
   tag = 'nightly' -- optional, updated every week. (see issue #1193)
 }
 
+  use('mbbill/undotree')
+
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    requires = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   }
 
   use { -- Highlight, edit, and navigate code
@@ -177,11 +179,6 @@ require('lualine').setup {
 require("nvim-tree").setup()
 vim.keymap.set('n', '<C-f>', ':NvimTreeToggle<CR>', { noremap=true })
 
--- vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-
--- vim.keymap.set('n', '[C-f]', ':NvimTreeToggle<CR>', {
---   noremap = true
--- })
 -- Enable Comment.nvim
 require('Comment').setup()
 
