@@ -53,6 +53,7 @@ if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
 fi
 
 alias tmux='TERM=screen-256color tmux'
+alias vim=nvim
 
 if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
     tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux

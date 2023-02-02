@@ -192,7 +192,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
   ["telescope-fzf-native.nvim"] = {
-    cond = { true },
+    cond = { false },
     loaded = false,
     needs_bufread = false,
     only_cond = true,
@@ -223,6 +223,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/root/.local/share/nvim/site/pack/packer/start/vim-sleuth",
     url = "https://github.com/tpope/vim-sleuth"
+  },
+  ["vim-tmux-clipboard"] = {
+    loaded = true,
+    path = "/root/.local/share/nvim/site/pack/packer/start/vim-tmux-clipboard",
+    url = "https://github.com/roxma/vim-tmux-clipboard"
   }
 }
 
