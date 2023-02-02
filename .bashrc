@@ -39,9 +39,21 @@ alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 
 # Miscellaneous
 alias mkdir='mkdir -p'     #  Make those pesky parent directories by default
+
+if [[ $($(which nvim &> /dev/null); echo $?) -ne 0 ]]; then
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    chmod u+x nvim.appimage
+    mv nvim.appimage /usr/bin/nvim
+    dnf install -y unzip clang gcc make
+    echo "installed nvim"
+fi
+if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    dnf install -y tmux
+fi
+
 alias tmux='TERM=screen-256color tmux'
 
-. "$HOME/.cargo/env"
 if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
     tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
 fi
