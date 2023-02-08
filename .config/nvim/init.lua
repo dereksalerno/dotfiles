@@ -37,6 +37,7 @@ require('packer').startup(function(use)
 }
 
   use('mbbill/undotree')
+  use('pearofducks/ansible-vim')
 
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
