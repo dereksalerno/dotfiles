@@ -50,9 +50,9 @@ fi
 alias vim=nvim
 if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
     dnf install -y tmux
-    if [[ ! -f ~/.tmux/plugins/tpm ]]; then
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-    fi
+fi
+if [[ ! -f ~/.tmux/plugins/tpm ]]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 alias tmux='TERM=screen-256color tmux'
