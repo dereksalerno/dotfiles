@@ -48,8 +48,10 @@ if [[ $($(which nvim &> /dev/null); echo $?) -ne 0 ]]; then
     echo "installed nvim"
 fi
 if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     dnf install -y tmux
+    if [[ ! -f ~/.tmux/plugins/tpm ]]; then
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    fi
 fi
 
 alias tmux='TERM=screen-256color tmux'
