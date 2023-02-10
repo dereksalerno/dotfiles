@@ -51,7 +51,7 @@ alias vim=nvim
 if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
     dnf install -y tmux
 fi
-if [[ ! -f ~/.tmux/plugins/tpm ]]; then
+if [[ ! -e ~/.tmux/plugins/tpm ]]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
