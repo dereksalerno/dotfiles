@@ -47,6 +47,7 @@ if [[ $($(which nvim &> /dev/null); echo $?) -ne 0 ]]; then
     dnf install -y unzip clang gcc make
     echo "installed nvim"
 fi
+alias vim=nvim
 if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
     dnf install -y tmux
     if [[ ! -f ~/.tmux/plugins/tpm ]]; then
