@@ -20,7 +20,10 @@ export PATH
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
-. ~/.bash_aliases
+if [[ -f ~/.bash_aliases ]]; then
+    . ~/.bash_aliases
+fi
+
 alias ls='ls -h --color'
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
