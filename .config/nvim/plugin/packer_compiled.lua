@@ -84,6 +84,11 @@ _G.packer_plugins = {
     path = "/root/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["ansible-vim"] = {
+    loaded = true,
+    path = "/root/.local/share/nvim/site/pack/packer/start/ansible-vim",
+    url = "https://github.com/pearofducks/ansible-vim"
+  },
   ["cmp-buffer"] = {
     loaded = true,
     path = "/root/.local/share/nvim/site/pack/packer/start/cmp-buffer",
@@ -223,6 +228,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/root/.local/share/nvim/site/pack/packer/start/vim-sleuth",
     url = "https://github.com/tpope/vim-sleuth"
+  },
+  ["vim-tmux-clipboard"] = {
+    loaded = true,
+    path = "/root/.local/share/nvim/site/pack/packer/start/vim-tmux-clipboard",
+    url = "https://github.com/roxma/vim-tmux-clipboard"
   }
 }
 

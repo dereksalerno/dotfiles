@@ -17,12 +17,10 @@ export PATH
 
 # User specific aliases and functions
 
-alias cp='cp -i'
-alias mv='mv -i'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
+. ~/.bash_aliases
 alias ls='ls -h --color'
 alias lx='ls -lXB'         #  Sort by extension.
 alias lk='ls -lSr'         #  Sort by size, biggest last.
@@ -37,6 +35,13 @@ alias lr='ll -R'           #  Recursive ls.
 alias la='ll -A'           #  Show hidden files.
 alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 
+# Get that kubectl alias we use every single day 
+if [[ $($(which kubectl &> /dev/null); echo $?) -eq 0 ]]; then
+    source <(kubectl completion bash)
+    alias k=kubectl
+    complete -F __start_kubectl k
+fi
+
 # Miscellaneous
 alias mkdir='mkdir -p'     #  Make those pesky parent directories by default
 
@@ -44,19 +49,35 @@ if [[ $($(which nvim &> /dev/null); echo $?) -ne 0 ]]; then
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
     chmod u+x nvim.appimage
     mv nvim.appimage /usr/bin/nvim
-    dnf install -y unzip clang gcc make
+    if [[ $($(which dnf &> /dev/null); echo $?) -eq 0 ]]; then
+	dnf install -y unzip clang gcc make
+    elif [[ $($(which apt &> /dev/null); echo $?) -eq 0 ]]; then
+	apt install -y unzip clang gcc make
+    fi
     echo "installed nvim"
 fi
+
 alias vim=nvim
+
+# Install tmux on rpm or deb based distros -- Maybe add more as needed
 if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
-    dnf install -y tmux
+    if [[ $($(which dnf &> /dev/null); echo $?) -eq 0 ]]; then
+	dnf install -y tmux
+    elif [[ $($(which apt &> /dev/null); echo $?) -eq 0 ]]; then
+	apt install -y tmux
+    fi
 fi
+
+# tmux package manager needs to be pulled
 if [[ ! -e ~/.tmux/plugins/tpm ]]; then
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
 alias tmux='TERM=screen-256color tmux'
 
+# Make a session if none exists
 if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
     tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+elif [[ $- =~ i ]] && [[ -z "$TMUX" ]]; then
+    tmux attach-session -t default_session || tmux new-session -s default_session
 fi
