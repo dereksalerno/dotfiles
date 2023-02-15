@@ -62,6 +62,11 @@ fi
 
 alias vim=nvim
 
+# If running WSL, change DISPLAY variable for X11 forwarding / clipboard 
+if [[ -n $WSL_DISTRO_NAME ]]; then
+    export DISPLAY="$(grep nameserver /etc/resolv.conf | sed 's/nameserver //'):0"
+fi
+
 # Install tmux on rpm or deb based distros -- Maybe add more as needed
 if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
     if [[ $($(which dnf &> /dev/null); echo $?) -eq 0 ]]; then
