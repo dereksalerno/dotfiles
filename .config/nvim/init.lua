@@ -36,6 +36,12 @@ require('packer').startup(function(use)
   tag = 'nightly' -- optional, updated every week. (see issue #1193)
 }
 
+  use {
+  'camgraff/telescope-tmux.nvim',
+  requires = {
+    'norcalli/nvim-terminal.lua',
+  },
+}
   use('mbbill/undotree')
   use('pearofducks/ansible-vim')
 
@@ -73,6 +79,10 @@ require('packer').startup(function(use)
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+  -- terminal highlighing for telescope tmux plugin
+  -- use('norcalli/nvim-terminal.lua')
+  -- require'terminal'.setup()
+
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')
@@ -84,6 +94,7 @@ require('packer').startup(function(use)
     require('packer').sync()
   end
 end)
+
 
 -- When we are bootstrapping a configuration, it doesn't
 -- make sense to execute the rest of the init.lua.
@@ -176,6 +187,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+require'terminal'.setup()
 -- Set lualine as statusline
 -- See `:help lualine.txt`
 require('lualine').setup {
@@ -228,7 +240,6 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
-
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
@@ -247,6 +258,19 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
+vim.keymap.set('n', '<leader>ts', function()
+  require('telescope').extensions.tmux.sessions {}
+end, { desc = '[T]mux [S]essions' })
+
+vim.keymap.set('n', '<leader>tw', function()
+  require('telescope').extensions.tmux.windows {}
+end, { desc = '[T]mux [W]indows' })
+
+vim.keymap.set('n', '<leader>tp', function()
+  require('telescope').extensions.tmux.pane_contents {}
+end, { desc = '[T]mux [P]ane_Contents' })
+
+--
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
@@ -373,7 +397,7 @@ local servers = {
   -- rust_analyzer = {},
   -- tsserver = {},
 
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
