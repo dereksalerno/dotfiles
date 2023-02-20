@@ -48,7 +48,7 @@ fi
 # Miscellaneous
 alias mkdir='mkdir -p'     #  Make those pesky parent directories by default
 
-if [[ $($(which nvim &> /dev/null); echo $?) -ne 0 ]]; then
+if [[ $($(which nvim --skip-alias &> /dev/null); echo $?) -ne 0 ]]; then
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
     chmod u+x nvim.appimage
     mv nvim.appimage /usr/bin/nvim
@@ -67,13 +67,15 @@ if [[ -n $WSL_DISTRO_NAME ]]; then
     export DISPLAY="$(grep nameserver /etc/resolv.conf | sed 's/nameserver //'):0"
 fi
 
-# Install tmux on rpm or deb based distros -- Maybe add more as needed
-if [[ $($(which tmux &> /dev/null); echo $?) -ne 0 ]]; then
-    if [[ $($(which dnf &> /dev/null); echo $?) -eq 0 ]]; then
-	dnf install -y tmux
-    elif [[ $($(which apt &> /dev/null); echo $?) -eq 0 ]]; then
-	apt install -y tmux
-    fi
+# Install tmux appimage to insure newer version and compatibility
+if [[ $($(which tmux --skip-alias &> /dev/null); echo $?) -ne 0 ]]; then
+    curl -s https://api.github.com/repos/nelsonenzo/tmux-appimage/releases/latest \
+    | grep "browser_download_url.*appimage" \
+    | cut -d : -f 2,3 \
+    | tr -d \" \
+    | wget -qi -
+    chmod +x tmux.appimage
+    mv tmux.appimage /usr/local/bin/tmux
 fi
 
 # tmux package manager needs to be pulled
