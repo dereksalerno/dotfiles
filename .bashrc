@@ -70,7 +70,7 @@ fi
 # Install tmux appimage to insure newer version and compatibility
 if [[ $($(which tmux --skip-alias &> /dev/null); echo $?) -ne 0 ]]; then
     curl -LO $(curl -s https://api.github.com/repos/nelsonenzo/tmux-appimage/releases/latest \
-    | grep "browser_download_url.*appimage" \
+    | grep "browser_download_url.*appimage\"" \
     | cut -d : -f 2,3 \
     | tr -d \") 
     chmod +x tmux.appimage
