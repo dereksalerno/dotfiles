@@ -1,3 +1,4 @@
+local border = require "plenary.window.border"
 -- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -29,25 +30,26 @@ require('packer').startup(function(use)
   }
 
   use {
-  'nvim-tree/nvim-tree.lua',
-  requires = {
-    'nvim-tree/nvim-web-devicons', -- optional, for file icons
-  },
-  tag = 'nightly' -- optional, updated every week. (see issue #1193)
-}
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    },
+    tag = 'nightly'                -- optional, updated every week. (see issue #1193)
+  }
 
   use {
-  'camgraff/telescope-tmux.nvim',
-  requires = {
-    'norcalli/nvim-terminal.lua',
-  },
-}
+    'camgraff/telescope-tmux.nvim',
+    requires = {
+      'norcalli/nvim-terminal.lua',
+    },
+  }
   use('mbbill/undotree')
   use('pearofducks/ansible-vim')
 
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    requires = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    requires = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline',
+      'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
   }
 
   use { -- Highlight, edit, and navigate code
@@ -67,12 +69,12 @@ require('packer').startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
 
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
-  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+  use 'navarasu/onedark.nvim'               -- Theme inspired by Atom
+  use 'nvim-lualine/lualine.nvim'           -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
-  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
-  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
-  use 'roxma/vim-tmux-clipboard' -- Tmux system clipboard compatibility
+  use 'numToStr/Comment.nvim'               -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth'                    -- Detect tabstop and shiftwidth automatically
+  use 'roxma/vim-tmux-clipboard'            -- Tmux system clipboard compatibility
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -117,6 +119,53 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = vim.fn.expand '$MYVIMRC',
 })
 
+-- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
+local ignore_buftype = { "quickfix", "nofile", "help" }
+local ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" }
+
+local function run()
+  if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then
+    return
+  end
+
+  if vim.tbl_contains(ignore_filetype, vim.bo.filetype) then
+    -- reset cursor to first line
+    vim.cmd[[normal! gg]]
+    return
+  end
+
+  -- If a line has already been specified on the command line, we are done
+  --   nvim file +num
+  if vim.fn.line(".") > 1 then
+    return
+  end
+
+  local last_line = vim.fn.line([['"]])
+  local buff_last_line = vim.fn.line("$")
+
+  -- If the last line is set and the less than the last line in the buffer
+  if last_line > 0 and last_line <= buff_last_line then
+    local win_last_line = vim.fn.line("w$")
+    local win_first_line = vim.fn.line("w0")
+    -- Check if the last line of the buffer is the same as the win
+    if win_last_line == buff_last_line then
+      -- Set line to last line edited
+      vim.cmd[[normal! g`"]]
+      -- Try to center
+    elseif buff_last_line - last_line > ((win_last_line - win_first_line) / 2) - 1 then
+      vim.cmd[[normal! g`"zz]]
+    else
+      vim.cmd[[normal! G'"<c-e>]]
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd({'BufWinEnter', 'FileType'}, {
+  group    = vim.api.nvim_create_augroup('nvim-lastplace', {}),
+  callback = run
+})
+
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
@@ -127,7 +176,10 @@ vim.o.hlsearch = false
 vim.wo.number = true
 vim.opt.relativenumber = true
 -- Enable mouse mode
-vim.o.mouse = 'a'
+vim.o.mouse = ''
+
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -171,10 +223,24 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+
+vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
+vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
+
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "J", "mzJ`z")
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
 
@@ -187,7 +253,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-require'terminal'.setup()
+require 'terminal'.setup()
 -- Set lualine as statusline
 -- See `:help lualine.txt`
 require('lualine').setup {
@@ -201,7 +267,7 @@ require('lualine').setup {
 
 -- Enable nvim-tree
 require("nvim-tree").setup()
-vim.keymap.set('n', '<C-f>', ':NvimTreeToggle<CR>', { noremap=true })
+vim.keymap.set('n', '<C-f>', ':NvimTreeToggle<CR>', { noremap = true })
 
 -- Enable Comment.nvim
 require('Comment').setup()
@@ -334,7 +400,12 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
--- Diagnostic keymaps
+-- Diagnostic keymaps & opts
+vim.diagnostic.config({
+  float = {
+    source = 'always',
+  },
+})
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
@@ -391,6 +462,13 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
+  pylsp = {
+    plugins = {
+      pycodestyle = {
+        ignore = { 'E111', 'E501' },
+      }
+    }
+  },
   -- clangd = {},
   -- gopls = {},
   -- pyright = {},
@@ -480,4 +558,3 @@ cmp.setup {
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-
