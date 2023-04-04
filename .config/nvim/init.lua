@@ -1,4 +1,3 @@
-local border = require "plenary.window.border"
 -- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -251,14 +250,13 @@ vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme onedark]]
+vim.cmd [[colorscheme rose-pine]]
 
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
 -- [[ Basic Keymaps ]]
--- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
@@ -276,6 +274,10 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
+
+
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
@@ -295,6 +297,7 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "*", "*zzzv")
 vim.keymap.set("n", "J", "mzJ`z")
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -314,7 +317,7 @@ require 'terminal'.setup()
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'onedark',
+    theme = 'rose-pine',
     component_separators = '|',
     section_separators = '',
   },
