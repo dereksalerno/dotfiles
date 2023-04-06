@@ -49,7 +49,7 @@ fi
 alias mkdir='mkdir -p'     #  Make those pesky parent directories by default
 
 if [[ $($(which nvim --skip-alias &> /dev/null); echo $?) -ne 0 ]]; then
-    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+    curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
     chmod u+x nvim.appimage
     mv nvim.appimage /usr/bin/nvim
     if [[ $($(which dnf &> /dev/null); echo $?) -eq 0 ]]; then
