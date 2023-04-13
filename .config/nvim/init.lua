@@ -44,7 +44,6 @@ require('packer').startup(function(use)
       'norcalli/nvim-terminal.lua',
     },
   }
-  use('mbbill/undotree')
   use('pearofducks/ansible-vim')
 
   use { -- Autocompletion
@@ -134,7 +133,7 @@ require('packer').startup(function(use)
   use 'roxma/vim-tmux-clipboard'            -- Tmux system clipboard compatibility
 
   -- Fuzzy Finder (files, lsp, etc)
-  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim', 'debugloop/telescope-undo.nvim' } }
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
@@ -314,6 +313,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
+
 require 'terminal'.setup()
 -- Set lualine as statusline
 -- See `:help lualine.txt`
@@ -374,10 +375,22 @@ require('telescope').setup {
       },
     },
   },
+  extensions = {
+    undo = {
+      side_by_side = true,
+      layout_strategy = "vertical",
+      layout_config = {
+        preview_height = 0.8,
+      },
+    },
+  },
 }
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+
+require("telescope").load_extension("undo")
+
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
