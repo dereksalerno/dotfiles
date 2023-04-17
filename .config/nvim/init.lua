@@ -71,59 +71,24 @@ require('packer').startup(function(use)
 
   -- Colorschemes to choose from
   use 'navarasu/onedark.nvim'          -- Theme inspired by Atom
-  use 'shaeinst/roshnivim-cs'          -- Colorscheme written in Lua, specially made for roshnivim with Tree-sitter support.
-  use 'tomasiser/vim-code-dark'        -- A dark color scheme heavily inspired by the look of the Dark+ scheme of Visual Studio Code.
-  use 'Mofiqul/vscode.nvim'            -- A Lua port of vim-code-dark colorscheme with vscode light and dark theme.
-  use 'bluz71/vim-nightfly-colors'     -- A dark midnight colorscheme with modern Neovim support including Tree-sitter.
-  use 'bluz71/vim-moonfly-colors'      -- A dark charcoal colorscheme with modern Neovim support including Tree-sitter.
   use 'folke/tokyonight.nvim'          -- A clean, dark and light Neovim theme written in Lua, with support for LSP, Tree-sitter and lots of plugins.
   use 'sainnhe/sonokai'                -- High Contrast & Vivid Color Scheme based on Monokai Pro.
   use 'nyoom-engineering/oxocarbon'    -- A dark and light Neovim theme written in fennel, inspired by IBM Carbon.
-  use 'kyazdani42/blue-moon'           -- A dark color scheme derived from palenight and carbonight.
-  use 'mhartington/oceanic-next'       -- Oceanic Next theme.
-  use 'jim-at-jibba/ariake-vim-colors' -- A port of the great Atom theme. Dark and light with Tree-sitter support.
-  use 'ishan9299/modus-theme-vim'      -- This is a color scheme developed by Protesilaos Stavrou for emacs.
-  use 'sainnhe/edge'                   -- Clean & Elegant Color Scheme inspired by Atom One and Material.
-  use 'theniceboy/nvim-deus'           -- Vim-deus with Tree-sitter support.
-  use 'bkegley/gloombuddy'             -- Gloom inspired theme.
-  use 'PHSix/nvim-hybrid'              -- A Neovim colorscheme write in Lua.
-  use 'ray-x/aurora'                   -- A 24-bit dark theme with Tree-sitter and LSP support.
   use 'savq/melange'                   -- Warm colorscheme written in Lua with support for various terminal emulators.
-  use 'RRethy/nvim-base16'             -- Neovim plugin for building base16 colorschemes. Includes support for Treesitter and LSP highlight groups.
   use 'fenetikm/falcon'                -- A colour scheme for terminals, Vim and friends.
   use 'shaunsingh/nord.nvim'           -- Neovim theme based off of the Nord Color Palette.
   use 'svrana/neosolarized.nvim'       -- Dark solarized colorscheme using colorbuddy for easy customization.
   use 'ishan9299/nvim-solarized-lua'   -- Solarized colorscheme in Lua (Neovim >= 0.5).
-  use 'shaunsingh/moonlight.nvim'      -- Port of VSCode's Moonlight colorscheme, written in Lua with built-in support for native LSP, Tree-sitter and many more plugins.
-  use 'lourenci/github-colors'         -- GitHub colors leveraging Tree-sitter to get 100% accuracy.
-  use 'sainnhe/gruvbox-material'       -- Gruvbox modification with softer contrast and Tree-sitter support.
-  use 'sainnhe/everforest'             -- A green based colorscheme designed to be warm, soft and easy on the eyes.
-  use 'neanias/everforest'             -- A Lua port of the Everforest colour scheme.
-  use 'NTBBloodbath/doom-one.nvim'     -- Lua port of doom-emacs' doom-one.
   use 'dracula/vim'                    -- Famous beautiful dark powered theme.
   use 'Mofiqul/dracula.nvim'           -- Dracula colorscheme for neovim written in Lua.
   use 'yashguptaz/calvera-dark.nvim'   -- A port of [VSCode Calvara Dark](https://github.com/saurabhdaware/vscode-calvera-dark) Theme to Neovim with Tree-sitter and many other plugins support.
-  use 'nxvu699134/vn-night'            -- A dark Neovim colorscheme written in Lua. Support built-in LSP and Tree-sitter.
-  use 'adisen99/codeschool.nvim'       -- Codeschool colorscheme written in Lua with Tree-sitter and built-in lsp support.
   use 'projekt0n/github-nvim-theme'    -- A GitHub theme, kitty, alacritty written in Lua. Support built-in LSP and Tree-sitter.
-  use 'kdheepak/monochrome.nvim'       -- A 16 bit monochrome colorscheme that uses hsluv for perceptually distinct gray colors, with support for Tree-sitter and other commonly used plugins.
   use 'rose-pine/neovim'               -- All natural pine, faux fur and a bit of soho vibes for the classy minimalist.
-  use 'mcchrish/zenbones.nvim'         -- A collection of Vim/Neovim colorschemes designed to highlight code using contrasts and font variations.
   use 'FrenzyExists/aquarium-vim'      -- A dark, yet vibrant colorscheme.
   use 'ldelossa/vimdark'               -- A minimal Vim theme for night time. Loosely based on vim-monotonic and chrome's dark reader extension. A light theme is included as well for the day time.
-  use 'Everblush/everblush'            -- A dark, vibrant and beautiful colorscheme written in Lua.
-  use 'RishabhRD/gruvy'                -- Gruvbuddy without colorbuddy using Lush.
   use 'luisiacc/gruvbox-baby'          -- A modern gruvbox theme with full treesitter support.
-  use 'titanzero/zephyrium'            -- A zephyr-esque theme, written in Lua, with TreeSitter support.
-  use 'kaiuri/nvim-juliana'            -- Port of Sublime's Mariana Theme to Neovim for short attention span developers with Tree-sitter support.
-  use 'lmburns/kimbox'                 -- A colorscheme with a dark background, and vibrant foreground that is centered around the color brown. A modification of [Kimbie Dark](https://marketplace.visualstudio.com/items?itemName=dnamsons.kimbie-dark-plus).
-  use 'rockyzhang24/arctic'            -- A Neovim colorscheme ported from VSCode Dark+ theme with the strict and precise color picking for both the editor and UI.
-  use 'ramojus/mellifluous.nvim'       -- Pleasant and productive colorscheme.
-  use 'Yazeed1s/minimal.nvim'          -- Two tree-sitter supported colorschemes that are inspired by base16-tomorrow-night and monokai-pro.
   use 'lewpoly/sherbet.nvim'           -- A soothing colorscheme with support for popular plugins and tree-sitter.
   use 'Mofiqul/adwaita.nvim'           -- Colorscheme based on GNOME Adwaita syntax with support for popular plugins.
-  use 'kvrohit/mellow.nvim'            -- A soothing dark color scheme with tree-sitter support.
-  use 'embark-theme/vim'               -- A deep inky purple theme leveraging bright colors.
 
 
   use 'nvim-lualine/lualine.nvim'           -- Fancier statusline
@@ -249,7 +214,7 @@ vim.wo.signcolumn = 'yes'
 
 -- Set colorscheme
 vim.o.termguicolors = true
-vim.cmd [[colorscheme rose-pine]]
+vim.cmd [[colorscheme sherbet]]
 
 
 -- Set completeopt to have a better completion experience
@@ -321,7 +286,7 @@ require 'terminal'.setup()
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'rose-pine',
+    theme = 'sherbet',
     component_separators = '|',
     section_separators = '',
   },
