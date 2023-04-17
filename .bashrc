@@ -60,6 +60,9 @@ if [[ $($(which nvim --skip-alias &> /dev/null); echo $?) -ne 0 ]]; then
     echo "installed nvim"
 fi
 
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+
 alias vim=nvim
 
 # If running WSL, change DISPLAY variable for X11 forwarding / clipboard 
