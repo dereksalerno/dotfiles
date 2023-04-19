@@ -14,6 +14,7 @@ local M = {
 	keys = {
 		{ "<leader>?", function() require('telescope.builtin').oldfiles() end,  desc = "[?] Find recently opened files" },
 		{ "<leader><space>", function() require('telescope.builtin').buffers() end,  desc = "[ ] Find existing buffers"  },
+		{ "<leader>tb", function() require('telescope.builtin').builtin() end,  desc = "Show [t]elescope [b]uiltins "  },
 		{ "<leader>tk", function() require('telescope.builtin').keymaps() end, desc = "[tk] List all keymaps" },
 		{
 			"<leader>/",
@@ -28,29 +29,21 @@ local M = {
 
 		{
 			"<leader>ts",
-			function() require('telescope').extensions.tmux.sessions {}() end,
+			function() require('telescope').extensions.tmux.sessions({}) end,
 	 		 desc = "[T]mux [S]essions",
 		},
 
 		{
 			"<leader>tw", 
-			function() require('telescope').extensions.tmux.windows {}() end,
+			function() require('telescope').extensions.tmux.windows({}) end,
 		  desc = "[T]mux [W]indows",
 		},
 
 		{
 			"<leader>tp", 
-			function() require('telescope').extensions.tmux.pane_contents {}() end,
+			function() require('telescope').extensions.tmux.pane_contents({}) end,
 		  desc = "[T]mux [P]ane_Contents",
 		},
-
---		{ "<C-M-o>", function() require('telescope.builtin').find_files()() end },
---		{
---			"<C-M-p>",
---			function() require('telescope.builtin').builtin(require('telescope.themes').get_dropdown({}))() end,
---		},
---		{ "<C-g>", function() require('telescope.builtin').live_grep()() end },
---		{ "<C-f>", function() require('telescope.builtin').current_buffer_fuzzy_find()() end },
 	},
 	opts = function()
 		local actions = require("telescope.actions")

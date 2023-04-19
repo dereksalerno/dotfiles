@@ -8,13 +8,6 @@ return {
       vim.cmd([[colorscheme rose-pine]])
     end,
   },
-
-  {
-	"folke/which-key.nvim",
-	{ "folke/neoconf.nvim", cmd = "Neoconf" },
-  "folke/neodev.nvim",
-	},
-
   {
     "nvim-neorg/neorg",
     -- lazy-load on filetype

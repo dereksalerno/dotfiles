@@ -37,6 +37,9 @@ return {
 						},
 					})
 				end,
+      setup = {
+				["*"] = function(server, opts) end,
+      },
 				["clangd"] = function()
 					local capabilities_cpp = lsp_utils.capabilities
 					capabilities_cpp.offsetEncoding = { "uts-16" }

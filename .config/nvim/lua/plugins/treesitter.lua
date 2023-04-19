@@ -6,8 +6,12 @@ local M = {
       'nvim-treesitter/nvim-treesitter-textobjects',
 			"nvim-treesitter/nvim-treesitter-refactor",
     },
+    keys = {
+      { "<c-space>", desc = "Increment selection" },
+      { "<bs>", desc = "Decrement selection", mode = "x" },
+    },
 		opts = {
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'vimdoc', 'vim' },
+    ensure_installed = { 'c','bash', 'markdown', 'cpp', 'go', 'lua', 'python', 'rust', 'typescript', 'vimdoc', 'vim' },
     highlight = { enable = true,
 									disable = function(lang, buf)
 											local max_filesize = 100 * 1024 -- 100 KB
@@ -32,8 +36,8 @@ local M = {
       keymaps = {
         init_selection = '<c-space>',
         node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<c-backspace>',
+        scope_incremental = '<nop>',
+        node_decremental = '<backspace>',
       },
     },
     textobjects = {
