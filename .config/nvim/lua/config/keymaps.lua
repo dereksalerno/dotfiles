@@ -25,6 +25,8 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 vim.keymap.set("n", "<C-s>", ":w<CR>")
 
+vim.keymap.set("n", "<C-w>", ":WhichKey<CR>")
+
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
