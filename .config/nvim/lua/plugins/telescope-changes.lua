@@ -7,9 +7,6 @@ local M = {
     { "debugloop/telescope-undo.nvim" },
     {
       "camgraff/telescope-tmux.nvim",
-      dependencies = {
-        "norcalli/nvim-terminal.lua",
-      },
     },
   },
   keys = {
