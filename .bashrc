@@ -72,8 +72,8 @@ fi
 
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
-
-alias vim=nvim
+#alias vim='env TERM=wezterm nvim'
+alias vim='nvim'
 
 # If running WSL, change DISPLAY variable for X11 forwarding / clipboard
 if [[ -n $WSL_DISTRO_NAME ]]; then
@@ -94,12 +94,11 @@ if [[ $(
 fi
 
 # tmux package manager needs to be pulled
-if [[ ! -e ~/.config/tmux/plugins/tpm ]]; then
-	git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-	tmux source-file ~/.config/tmux/tmux.conf
+if [[ ! -e ~/.tmux/plugins/tpm ]]; then
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	tmux source-file ~/.tmux.conf
 fi
-export TERM=screen-256color
-alias tmux='tmux -2'
+# alias tmux='tmux -2'
 
 # Make a session if none exists
 if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
@@ -107,3 +106,5 @@ if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
 elif [[ $- =~ i ]] && [[ -z "$TMUX" ]]; then
 	tmux attach-session -t default_session || tmux new-session -s default_session
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
