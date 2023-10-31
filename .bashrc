@@ -36,6 +36,9 @@ alias lr='ll -R'        #  Recursive ls.
 alias la='ll -A'        #  Show hidden files.
 alias tree='tree -Csuh' #  Nice alternative to 'recursive ls' ...
 
+# To use CTRL-S to go previous in CTRL-R search
+stty -ixon
+
 # Get that kubectl alias we use every single day
 if [[ $(
 	$(which kubectl &>/dev/null)
@@ -53,7 +56,7 @@ if [[ $(
 	$(which nvim --skip-alias &>/dev/null)
 	echo $?
 ) -ne 0 ]]; then
-	curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+	curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
 	chmod u+x nvim.appimage
 	mv nvim.appimage /usr/bin/nvim
 	if [[ $(

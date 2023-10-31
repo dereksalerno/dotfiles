@@ -20,6 +20,11 @@ ZSH_THEME="amuse"
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
 
+#
+
+# To use CTRL-S to go previous in CTRL-R search
+stty -ixon
+
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
