@@ -1,6 +1,8 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH
+export LANG=en_US.UTF-8
 
+export LC_ALL=en_US.UTF-8 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -11,24 +13,21 @@ export ZSH="$HOME/.oh-my-zsh"
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="amuse"
 
+# To use CTRL-S to go previous in CTRL-R search
+stty -ixon
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# Uncomment the following line to use case-sensitive completion.
-CASE_SENSITIVE="true"
-
-#
-
-# To use CTRL-S to go previous in CTRL-R search
-stty -ixon
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
+export OPENAI_API_KEY="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"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -96,8 +95,11 @@ promptinit
 prompt pure
 
 compinit
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
 
+# Uncomment the following line to use case-sensitive completion.
+CASE_SENSITIVE="true"
 
 
 # User configuration
@@ -115,26 +117,6 @@ fi
 alias mkdir='mkdir -p' #  Make those pesky parent directories by default
 # export MANPATH="/usr/local/man:$MANPATH"
 
-if [[ $(
-	$(which nvim --skip-alias &>/dev/null)
-	echo $?
-) -ne 0 ]]; then
-	curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
-	chmod u+x nvim.appimage
-	mv nvim.appimage /usr/bin/nvim
-	if [[ $(
-		$(which dnf &>/dev/null)
-		echo $?
-	) -eq 0 ]]; then
-		dnf install -y unzip clang gcc make
-	elif [[ $(
-		$(which apt &>/dev/null)
-		echo $?
-	) -eq 0 ]]; then
-		apt install -y unzip clang gcc make
-	fi
-	echo "installed nvim"
-fi
 
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
@@ -144,17 +126,6 @@ export EDITOR='nvim'
 # export LANG=en_US.UTF-8
 
 # Install tmux appimage to insure newer version and compatibility
-if [[ $(
-	$(which tmux --skip-alias &>/dev/null)
-	echo $?
-) -ne 0 ]]; then
-	curl -LO $(curl -s https://api.github.com/repos/nelsonenzo/tmux-appimage/releases/latest |
-		grep "browser_download_url.*appimage\"" |
-		cut -d : -f 2,3 |
-		tr -d \")
-	chmod +x tmux.appimage
-	mv tmux.appimage /usr/local/bin/tmux
-fi
 
 # tmux package manager needs to be pulled
 if [[ ! -e ~/.tmux/plugins/tpm ]]; then
@@ -184,6 +155,11 @@ fi
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # eval "$(zellij setup --generate-auto-start zsh)"
 
+source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [ $commands[oc] ]; then
+  source <(oc completion zsh)
+  compdef _oc oc
+fi
