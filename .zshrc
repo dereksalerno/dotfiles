@@ -27,7 +27,6 @@ stty -ixon
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-export OPENAI_API_KEY="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"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -77,7 +76,7 @@ ZSH_COLORIZE_STYLE="colorful"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git aliases colorize fd fzf git-auto-fetch rust alias-finder)
+plugins=(git aliases colorize fd fzf git-auto-fetch rust alias-finder zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 alias ls='exa' # just replace ls by exa and allow all other exa arguments

@@ -4,5 +4,7 @@ doc/tags
 debug
 .repro
 foo.*
+lazyvim.json
+lazy-lock.json
 *.log
 data
