@@ -77,7 +77,7 @@ ZSH_COLORIZE_STYLE="colorful"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git aliases colorize fd fzf git-auto-fetch rust alias-finder)
+plugins=(git aliases colorize fd fzf git-auto-fetch rust alias-finder zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 alias ls='exa' # just replace ls by exa and allow all other exa arguments
