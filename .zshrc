@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.cargo/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.zig:$HOME/.cargo/bin:/usr/local/bin:$PATH:$HOME/go/bin/
 export LANG=en_US.UTF-8
 
 export LC_ALL=en_US.UTF-8 
@@ -27,6 +27,7 @@ stty -ixon
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
+export OPENAI_API_KEY="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"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -76,7 +77,7 @@ ZSH_COLORIZE_STYLE="colorful"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git aliases colorize fd fzf git-auto-fetch rust alias-finder zsh-autosuggestions)
+plugins=(git aliases colorize fd copypath fzf git-auto-fetch rust alias-finder zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 alias ls='exa' # just replace ls by exa and allow all other exa arguments
@@ -88,10 +89,7 @@ alias lx='ls -lbhHigUmuSa@' # all list and extended
 alias tree='exa --tree' # tree view
 alias lS='exa -1' # one column by just names
 
-autoload -U compinit promptinit
-
-promptinit
-prompt pure
+autoload -U compinit
 
 compinit
 # zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
@@ -156,8 +154,16 @@ fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [ $commands[ocm] ]; then
+  source <(ocm completion zsh)
+  compdef _ocm ocm
+fi
 if [ $commands[oc] ]; then
   source <(oc completion zsh)
   compdef _oc oc
 fi
+if [ $commands[istioctl] ]; then
+  source <(istioctl completion zsh)
+  compdef _istioctl istioctl
+fi
+source <(helm completion zsh)
