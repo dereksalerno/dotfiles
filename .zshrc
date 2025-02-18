@@ -1,169 +1,93 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.zig:$HOME/.cargo/bin:/usr/local/bin:$PATH:$HOME/go/bin/
-export LANG=en_US.UTF-8
+export PATH=/root/.cargo/bin:/usr/jre17.0.11.0.9-2.el9/bin:/usr/jre17.0.11.0.9-2.el9/bin:/root/.local/bin:/root/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin:/usr/local/go/bin:/root/go/bin
 
-export LC_ALL=en_US.UTF-8 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+# tmux package manager needs to be pulled
+if [[ ! -e ~/.tmux/plugins/tpm ]]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  tmux source-file ~/.tmux.conf
+fi
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-ZSH_THEME="amuse"
+# Make a session if none exists
+if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
+  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+elif [[ $- =~ i ]] && [[ -z "$TMUX" ]]; then
+  tmux attach-session -t default_session || tmux new-session -s default_session
+fi
+fpath=(/usr/local/share/zsh/site-functions $fpath)
+[[ -d ${ZDOTDIR:-~}/.antidote ]] || git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote && source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
-# To use CTRL-S to go previous in CTRL-R search
-stty -ixon
+zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+[[ -f ${zsh_plugins}.txt ]] || touch ${zsh_plugins}.txt
+
+# Lazy-load antidote from its functions directory.
+fpath=($HOME/.antidote/functions $fpath)
+autoload -Uz antidote
+if [ $commands[bat] ]; then
+  alias cat='bat -p'
+fi
+unsetopt beep
+
+vi-mode() { set -o vi; }
+emacs-mode() { set -o emacs; }
+zle -N vi-mode
+zle -N emacs-mode
+bindkey '\ei' vi-mode              # switch to vi "insert" mode
+bindkey -M viins 'jk' vi-cmd-mode  # (optionally) switch to vi "cmd" mode
+bindkey -M viins '\ei' emacs-mode  # switch to emacs mode
+bindkey -M viins '\e.' insert-last-word
 
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Generate a new static file whenever .zsh_plugins.txt is updated.
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+  antidote bundle <${zsh_plugins}.txt >|${zsh_plugins}.zsh
+fi
+zstyle ':antidote:bundle' use-friendly-names 'yes'
 
-export OPENAI_API_KEY="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"
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+# End of lines added by compinstall
+eval "$(zoxide init zsh)"
+set -o emacs
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.bin/helper_scripts.sh ] && source /root/.bin/helper_scripts.sh
 
-# Uncomment the following line to change how often to auto-update (in days).
-zstyle ':omz:update' frequency 13
+source <(helm completion zsh)
+source <(fzf --zsh)
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+# Source your static plugins file.
+source ${zsh_plugins}.zsh
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+HISTFILE=~/.histfile
+HISTSIZE=100000
+SAVEHIST=10000
+setopt notify
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="false"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-export HISTFILESIZE=1000000000
-export HISTSIZE=1000000000
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-ZSH_COLORIZE_STYLE="colorful"
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git aliases colorize fd copypath fzf git-auto-fetch rust alias-finder zsh-autosuggestions)
-
-source $ZSH/oh-my-zsh.sh
-alias ls='exa' # just replace ls by exa and allow all other exa arguments
-alias l='ls -lbF' #   list, size, type
-alias ll='ls -la' # long, all
-alias llm='ll --sort=modified' # list, long, sort by modification date
-alias la='ls -lbhHigUmuSa' # all list
-alias lx='ls -lbhHigUmuSa@' # all list and extended
-alias tree='exa --tree' # tree view
-alias lS='exa -1' # one column by just names
-
-autoload -U compinit
-
-compinit
-# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
-
-# Uncomment the following line to use case-sensitive completion.
-CASE_SENSITIVE="true"
-
-
-# User configuration
-
-if [[ $(
-	$(which kubectl &>/dev/null)
-	echo $?
-) -eq 0 ]]; then
-	source <(kubectl completion zsh)
-	alias k=kubectl
-	complete -F __start_kubectl k
+if [ $commands[kubectl] ]; then
+  alias k=kubectl
+  source <(kubectl completion zsh)
+  kubectl completion zsh > "${fpath[0]}/_kubectl"
+  compdef k='kubectl'
+fi
+if [ $commands[oc] ]; then
+  source <(oc completion zsh)
+  compdef _oc oc
+fi
+if [ $commands[oc-mirror] ]; then
+  source <(oc-mirror completion zsh)
+  compdef _oc-mirror oc-mirror
+fi
+if [ $commands[istioctl] ]; then
+  source <(istioctl completion zsh)
+  compdef _istioctl istioctl
 fi
 
 # Miscellaneous
 alias mkdir='mkdir -p' #  Make those pesky parent directories by default
-# export MANPATH="/usr/local/man:$MANPATH"
 
 
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 alias vim='nvim'
 export EDITOR='nvim'
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
-# Install tmux appimage to insure newer version and compatibility
-
-# tmux package manager needs to be pulled
-if [[ ! -e ~/.tmux/plugins/tpm ]]; then
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	tmux source-file ~/.tmux.conf
-fi
-# alias tmux='tmux -2'
-
-# Make a session if none exists
-if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-	tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
-elif [[ $- =~ i ]] && [[ -z "$TMUX" ]]; then
-	tmux attach-session -t default_session || tmux new-session -s default_session
-fi
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# eval "$(zellij setup --generate-auto-start zsh)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-if [ $commands[ocm] ]; then
-  source <(ocm completion zsh)
-  compdef _ocm ocm
-fi
-if [ $commands[oc] ]; then
-  source <(oc completion zsh)
-  compdef _oc oc
-fi
-if [ $commands[istioctl] ]; then
-  source <(istioctl completion zsh)
-  compdef _istioctl istioctl
-fi
-source <(helm completion zsh)
+eval "$(starship init zsh)"

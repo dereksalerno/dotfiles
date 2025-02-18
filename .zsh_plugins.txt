@@ -1,0 +1,10 @@
+# .zsh_plugins.txt
+# some plugins support deferred loading
+ajeetdsouza/zoxide kind:zsh
+belak/zsh-utils path:completion
+ahmetb/kubectx kind:path
+ahmetb/kubectx path:completion kind:fpath 
+mattmc3/ez-compinit
+zsh-users/zsh-autosuggestions kind:zsh
+zdharma-continuum/fast-syntax-highlighting kind:zsh
+zsh-users/zsh-history-substring-search
